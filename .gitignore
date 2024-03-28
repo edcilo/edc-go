@@ -1,0 +1,53 @@
+# Binarios para programas y plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+
+# Archivos generados durante la compilación
+*.o
+*.a
+*.out
+
+# Archivos de metadatos de Go
+*.pem
+*.key
+
+# Carpeta que contiene archivos binarios compilados
+/bin/
+/pkg/
+
+# Dependencias externas
+/vendor/
+
+# Archivos de configuración del IDE o editor
+/.vscode/
+/.idea/
+*.swp
+*.swo
+*.sublime-workspace
+
+# Sistema de archivos específicos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Carpeta que contiene archivos de perfil de cobertura
+/coverage/
+
+# Archivos de salida de la herramienta de cobertura de código
+*.cover
+
+# Archivos de configuración de herramientas de Go
+*.cfg
+
+# directorio usado para almacenar "caché" de dependencias del proyecto
+/go.sum
+/go.mod
+
+# Se ignoran archivos de log
+*.log
+
+# Carpeta que puede contener archivos temporales
+/tmp/
