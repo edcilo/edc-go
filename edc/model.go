@@ -15,7 +15,6 @@ type BaseModel struct {
 }
 
 func (m *BaseModel) BeforeCreate(tx *gorm.DB) error {
-  m.ID = uuid.New()
-  return nil
+	m.ID = uuid.New()
+	return nil
 }
-
