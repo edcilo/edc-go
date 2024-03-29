@@ -1,7 +1,15 @@
 package edc
 
-import "fmt"
+import (
+	"gorm.io/gorm"
+)
 
-func HelloWorld() {
-	fmt.Println("Hello, World!")
+type EDC struct {
+	DB *gorm.DB
+}
+
+func NewEDC(args NewEDCArgs) *EDC {
+	return &EDC{
+		DB: DBSetup(args.DB),
+	}
 }
