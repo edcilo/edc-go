@@ -11,7 +11,7 @@ import (
 )
 
 func DBSetup(params DBSetupArgs) *gorm.DB {
-	log.Info("💾 Setting up DB connection...")
+	log.Info("Setting up DB connection...")
 	var dbOpen gorm.Dialector
 
 	switch params.Engine {
@@ -23,7 +23,7 @@ func DBSetup(params DBSetupArgs) *gorm.DB {
 		dbOpen = MySQLConn(params.DSN)
 	default:
 		msg := fmt.Sprintf(
-			"💀 Invalid DB Engine. Valid options are: %s, %s, %s. You provided: %s",
+			"Invalid DB Engine. Valid options are: %s, %s, %s. You provided: %s",
 			SQLite, Postgres, MySQL, params.Engine,
 		)
 		panic(msg)
@@ -31,11 +31,11 @@ func DBSetup(params DBSetupArgs) *gorm.DB {
 
 	db, err := gorm.Open(dbOpen, &gorm.Config{})
 	if err != nil {
-		msg := fmt.Sprintf("💀 Failed to connect to DB: %s", err)
+		msg := fmt.Sprintf("Failed to connect to DB: %s", err)
 		panic(msg)
 	}
 
-	log.Info("✅ DB connection established.")
+	log.Info("DB connection established.")
 	return db
 }
 
