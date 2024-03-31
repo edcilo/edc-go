@@ -1,5 +1,24 @@
 package edc
 
+type CacheEngine string
+
+const (
+	Redis CacheEngine = "redis"
+)
+
+type CacheDSN struct {
+	Host     string
+	Port     int
+	User     string
+	Password string
+	Database int
+}
+
+type CacheSetupArgs struct {
+	Engine CacheEngine
+	DSN    CacheDSN
+}
+
 type DBEngine string
 
 const (
@@ -22,5 +41,6 @@ type DBSetupArgs struct {
 }
 
 type NewEDCArgs struct {
-	DB DBSetupArgs
+	DB    DBSetupArgs
+	Cache CacheSetupArgs
 }

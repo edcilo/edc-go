@@ -1,15 +1,21 @@
 package edc
 
 import (
+	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
 type EDC struct {
-	DB *gorm.DB
+	DB    *gorm.DB
+	Cache *redis.Client
 }
 
-func NewEDC(args NewEDCArgs) *EDC {
-	return &EDC{
-		DB: DBSetup(args.DB),
+var edc = EDC{}
+
+func Initialize(args NewEDCArgs) EDC {
+	edc = EDC{
+		DB:    DBSetup(args.DB),
+		Cache: CacheSetup(args.Cache),
 	}
+	return edc
 }
