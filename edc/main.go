@@ -10,12 +10,12 @@ type EDC struct {
 	Cache *redis.Client
 }
 
-var edc = EDC{}
+var Edc EDC
 
-func Initialize(args NewEDCArgs) EDC {
-	edc = EDC{
+func Initialize(args NewEDCArgs) *EDC {
+	Edc = EDC{
 		DB:    DBSetup(args.DB),
 		Cache: CacheSetup(args.Cache),
 	}
-	return edc
+	return &Edc
 }
