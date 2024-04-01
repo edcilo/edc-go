@@ -1,5 +1,7 @@
 package edc
 
+import "gorm.io/gorm"
+
 type CacheEngine string
 
 const (
@@ -50,4 +52,16 @@ type PaginateArgs struct {
 	Limit   int
 	OrderBy string
 	Order   string
+}
+
+type BaseRepositoryInterface interface {
+	SetModel(model interface{})
+	DB() *gorm.DB
+	Count() (int64, error)
+	GetAll(dest interface{}, conds ...interface{}) (tx *gorm.DB)
+	GetByID(dest interface{}, id string, deleted bool) (tx *gorm.DB)
+	Paginate(dest interface{}, args PaginateArgs, conds ...interface{}) (tx *gorm.DB)
+	Create(dest interface{}) (tx *gorm.DB)
+	Update(dest interface{}) (tx *gorm.DB)
+	Delete(dest interface{}) (tx *gorm.DB)
 }

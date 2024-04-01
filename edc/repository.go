@@ -45,3 +45,23 @@ func (r *BaseRepository) Paginate(
 		Order(args.OrderBy+" "+args.Order).
 		Find(dest, conds...)
 }
+
+func (r *BaseRepository) Create(dest interface{}) (tx *gorm.DB) {
+	return r.DB().Create(dest)
+}
+
+func (r *BaseRepository) Update(dest interface{}) (tx *gorm.DB) {
+	return r.DB().Save(dest)
+}
+
+func (r *BaseRepository) Delete(dest interface{}) (tx *gorm.DB) {
+	return r.DB().Delete(dest)
+}
+
+func (r *BaseRepository) Restore(dest interface{}) (tx *gorm.DB) {
+	return r.DB().Unscoped().Model(dest).Update("deleted_at", nil)
+}
+
+func (r *BaseRepository) HardDelete(dest interface{}) (tx *gorm.DB) {
+	return r.DB().Unscoped().Delete(dest)
+}
