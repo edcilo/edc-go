@@ -44,3 +44,10 @@ type NewEDCArgs struct {
 	DB    DBSetupArgs
 	Cache CacheSetupArgs
 }
+
+type PaginateArgs struct {
+	Page    int
+	Limit   int
+	OrderBy string
+	Order   string
+}
