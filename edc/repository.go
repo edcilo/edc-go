@@ -51,7 +51,7 @@ func (r *BaseRepository) Create(dest interface{}) (tx *gorm.DB) {
 }
 
 func (r *BaseRepository) Update(dest interface{}) (tx *gorm.DB) {
-	return r.DB().Save(dest)
+	return Edc.DB.Save(dest)
 }
 
 func (r *BaseRepository) Delete(dest interface{}) (tx *gorm.DB) {
