@@ -74,3 +74,27 @@ func MySQLConn(params DBDSN) gorm.Dialector {
 		params.Database)
 	return mysql.Open(dsn)
 }
+
+func DBMigrate(db *gorm.DB, models []interface{}) {
+	log.Info("Migrating database.")
+
+	for _, model := range models {
+		if err := db.AutoMigrate(model); err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	log.Info("Database migration completed")
+}
+
+func DBRunSeeders(db *gorm.DB, seeders []DBSeederFunc) {
+	log.Info("Running seeders.")
+
+	for _, seeder := range seeders {
+		if err := seeder(db); err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	log.Info("Seeders ran successfully.")
+}

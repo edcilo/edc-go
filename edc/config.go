@@ -2,8 +2,6 @@ package edc
 
 import (
 	"github.com/gofiber/fiber/v2/log"
-
-	"github.com/edcilo/edc-go/edc/helpers"
 )
 
 var Config = Configuration{}
@@ -11,7 +9,7 @@ var Config = Configuration{}
 func ConfigSetup(envfiles ...string) *Configuration {
 	log.Info("Setting up configuration")
 
-	env := helpers.Env{}
+	env := Env{}
 	env.Load(envfiles...)
 
 	Config = Configuration{

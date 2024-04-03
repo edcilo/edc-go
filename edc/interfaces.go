@@ -42,6 +42,8 @@ type DBSetupArgs struct {
 	DSN    DBDSN
 }
 
+type DBSeederFunc func(*gorm.DB) error
+
 type NewEDCArgs struct {
 	DB    DBSetupArgs
 	Cache CacheSetupArgs
