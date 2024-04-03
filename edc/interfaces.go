@@ -65,3 +65,36 @@ type BaseRepositoryInterface interface {
 	Update(dest interface{}) (tx *gorm.DB)
 	Delete(dest interface{}) (tx *gorm.DB)
 }
+
+// Configuration struct
+type ConfigurationApp struct {
+	Name        string
+	Description string
+	Version     string
+	Host        string
+	Port        int
+}
+
+type ConfigurationDB struct {
+	Engine   DBEngine
+	Host     string
+	Port     int
+	Database string
+	User     string
+	Password string
+}
+
+type ConfigurationCache struct {
+	Engine   CacheEngine
+	Host     string
+	Port     int
+	User     string
+	Password string
+	Database int
+}
+
+type Configuration struct {
+	App   ConfigurationApp
+	DB    ConfigurationDB
+	Cache ConfigurationCache
+}

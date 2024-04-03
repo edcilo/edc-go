@@ -10,21 +10,30 @@ import (
 	"gorm.io/gorm"
 )
 
-func DBSetup(params DBSetupArgs) *gorm.DB {
+func DBSetup() *gorm.DB {
 	log.Info("Setting up DB connection...")
 	var dbOpen gorm.Dialector
 
-	switch params.Engine {
+	engine := Config.DB.Engine
+	dsn := DBDSN{
+		Host:     Config.DB.Host,
+		Port:     Config.DB.Port,
+		User:     Config.DB.User,
+		Password: Config.DB.Password,
+		Database: Config.DB.Database,
+	}
+
+	switch engine {
 	case SQLite:
-		dbOpen = SQLiteConn(params.DSN)
+		dbOpen = SQLiteConn(dsn)
 	case Postgres:
-		dbOpen = PostgresConn(params.DSN)
+		dbOpen = PostgresConn(dsn)
 	case MySQL:
-		dbOpen = MySQLConn(params.DSN)
+		dbOpen = MySQLConn(dsn)
 	default:
 		msg := fmt.Sprintf(
 			"Invalid DB Engine. Valid options are: %s, %s, %s. You provided: %s",
-			SQLite, Postgres, MySQL, params.Engine,
+			SQLite, Postgres, MySQL, engine,
 		)
 		panic(msg)
 	}

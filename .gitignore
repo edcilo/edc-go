@@ -51,3 +51,6 @@ Thumbs.db
 
 # Carpeta que puede contener archivos temporales
 /tmp/
+
+# Environment variables file
+.env

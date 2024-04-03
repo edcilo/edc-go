@@ -1,6 +1,7 @@
 package edc
 
 import (
+	"context"
 	"fmt"
 	"sync"
 
@@ -13,18 +14,34 @@ var (
 	cacheInstance *redis.Client
 )
 
-func CacheSetup(params CacheSetupArgs) *redis.Client {
+func CacheSetup() *redis.Client {
 	log.Info("Setting up Cache connection...")
 
-	switch params.Engine {
+	engine := Config.Cache.Engine
+	dsn := CacheDSN{
+		Host:     Config.Cache.Host,
+		Port:     Config.Cache.Port,
+		User:     Config.Cache.User,
+		Password: Config.Cache.Password,
+		Database: Config.Cache.Database,
+	}
+
+	switch engine {
 	case Redis:
 		once.Do(func() {
-			cacheInstance = RedisConn(params.DSN)
+			cacheInstance = RedisConn(dsn)
 		})
+
+		ctx := context.Background()
+		pong := cacheInstance.Ping(ctx)
+		if pong.Err() != nil {
+			msg := fmt.Sprintf("Failed to connect to Cache: %s", pong.Err())
+			panic(msg)
+		}
 	default:
 		msg := fmt.Sprintf(
 			"Invalid Cache Engine. Valid options are: %s. You provided: %s",
-			Redis, params.Engine)
+			Redis, engine)
 		panic(msg)
 	}
 
