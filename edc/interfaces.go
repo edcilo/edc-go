@@ -107,13 +107,12 @@ type RepositoryGetByIDArgs struct {
 }
 
 type RepositoryPaginateArgs struct {
-	Dest    interface{}
-	Page    int
-	Limit   int
-	OrderBy string
-	Order   string
+	Dest  interface{}
+	Page  int
+	Limit int
+	Order string
 }
 
 type RepositoryCountArgs struct {
-	Total int
+	Total int64
 }

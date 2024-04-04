@@ -39,7 +39,7 @@ func (r *BaseRepository) Paginate(
 	return r.DB().
 		Limit(args.Limit).
 		Offset((args.Page-1)*args.Limit).
-		Order(args.OrderBy+" "+args.Order).
+		Order(args.Order).
 		Find(args.Dest, conds...)
 }
 
