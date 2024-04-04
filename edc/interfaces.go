@@ -49,18 +49,6 @@ type NewEDCArgs struct {
 	Cache CacheSetupArgs
 }
 
-type BaseRepositoryInterface interface {
-	SetModel(model interface{})
-	DB() *gorm.DB
-	Count() (int64, error)
-	GetAll(args RepositoryGetAllArgs, conds ...interface{}) (tx *gorm.DB)
-	GetByID(args RepositoryGetByIDArgs) (tx *gorm.DB)
-	Paginate(args RepositoryPaginateArgs, conds ...interface{}) (tx *gorm.DB)
-	Create(dest interface{}) (tx *gorm.DB)
-	Update(dest interface{}) (tx *gorm.DB)
-	Delete(dest interface{}) (tx *gorm.DB)
-}
-
 // Configuration struct
 type ConfigurationApp struct {
 	Name        string
@@ -95,6 +83,18 @@ type Configuration struct {
 }
 
 // Repository structs
+type BaseRepositoryInterface interface {
+	SetModel(model interface{})
+	DB() *gorm.DB
+	Count(args RepositoryCountArgs) (tx *gorm.DB)
+	GetAll(args RepositoryGetAllArgs, conds ...interface{}) (tx *gorm.DB)
+	GetByID(args RepositoryGetByIDArgs) (tx *gorm.DB)
+	Paginate(args RepositoryPaginateArgs, conds ...interface{}) (tx *gorm.DB)
+	Create(dest interface{}) (tx *gorm.DB)
+	Update(dest interface{}) (tx *gorm.DB)
+	Delete(dest interface{}) (tx *gorm.DB)
+}
+
 type RepositoryGetAllArgs struct {
 	Dest  interface{}
 	Order string
@@ -112,4 +112,8 @@ type RepositoryPaginateArgs struct {
 	Limit   int
 	OrderBy string
 	Order   string
+}
+
+type RepositoryCountArgs struct {
+	Total int
 }

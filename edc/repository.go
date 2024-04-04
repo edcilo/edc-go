@@ -16,10 +16,8 @@ func (r *BaseRepository) DB() *gorm.DB {
 	return Edc.DB.Model(r.Model)
 }
 
-func (r *BaseRepository) Count() (int64, error) {
-	var count int64
-	res := r.DB().Count(&count)
-	return count, res.Error
+func (r *BaseRepository) Count(args RepositoryCountArgs) *gorm.DB {
+	return r.DB().Count(&args.Total)
 }
 
 func (r *BaseRepository) GetAll(args RepositoryGetAllArgs, conds ...interface{}) (tx *gorm.DB) {
