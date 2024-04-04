@@ -22,28 +22,27 @@ func (r *BaseRepository) Count() (int64, error) {
 	return count, res.Error
 }
 
-func (r *BaseRepository) GetAll(dest interface{}, conds ...interface{}) (tx *gorm.DB) {
-	return r.DB().Find(dest, conds...)
+func (r *BaseRepository) GetAll(args RepositoryGetAllArgs, conds ...interface{}) (tx *gorm.DB) {
+	return r.DB().Order(args.Order).Find(args.Dest, conds...)
 }
 
-func (r *BaseRepository) GetByID(dest interface{}, id string, deleted bool) (tx *gorm.DB) {
+func (r *BaseRepository) GetByID(args RepositoryGetByIDArgs) (tx *gorm.DB) {
 	q := r.DB()
-	if deleted {
+	if args.Deleted {
 		q = q.Unscoped()
 	}
-	return q.Where("id = ?", id).First(dest)
+	return q.Where("id = ?", args.ID).First(args.Dest)
 }
 
 func (r *BaseRepository) Paginate(
-	dest interface{},
-	args PaginateArgs,
+	args RepositoryPaginateArgs,
 	conds ...interface{},
 ) (tx *gorm.DB) {
 	return r.DB().
 		Limit(args.Limit).
 		Offset((args.Page-1)*args.Limit).
 		Order(args.OrderBy+" "+args.Order).
-		Find(dest, conds...)
+		Find(args.Dest, conds...)
 }
 
 func (r *BaseRepository) Create(dest interface{}) (tx *gorm.DB) {

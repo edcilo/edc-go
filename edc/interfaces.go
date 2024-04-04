@@ -49,13 +49,6 @@ type NewEDCArgs struct {
 	Cache CacheSetupArgs
 }
 
-type PaginateArgs struct {
-	Page    int
-	Limit   int
-	OrderBy string
-	Order   string
-}
-
 type BaseRepositoryInterface interface {
 	SetModel(model interface{})
 	DB() *gorm.DB
@@ -99,4 +92,24 @@ type Configuration struct {
 	App   ConfigurationApp
 	DB    ConfigurationDB
 	Cache ConfigurationCache
+}
+
+// Repository structs
+type RepositoryGetAllArgs struct {
+	Dest  interface{}
+	Order string
+}
+
+type RepositoryGetByIDArgs struct {
+	Dest    interface{}
+	ID      string
+	Deleted bool
+}
+
+type RepositoryPaginateArgs struct {
+	Dest    interface{}
+	Page    int
+	Limit   int
+	OrderBy string
+	Order   string
 }
