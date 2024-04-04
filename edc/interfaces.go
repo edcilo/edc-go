@@ -53,9 +53,9 @@ type BaseRepositoryInterface interface {
 	SetModel(model interface{})
 	DB() *gorm.DB
 	Count() (int64, error)
-	GetAll(dest interface{}, conds ...interface{}) (tx *gorm.DB)
-	GetByID(dest interface{}, id string, deleted bool) (tx *gorm.DB)
-	Paginate(dest interface{}, args PaginateArgs, conds ...interface{}) (tx *gorm.DB)
+	GetAll(args RepositoryGetAllArgs, conds ...interface{}) (tx *gorm.DB)
+	GetByID(args RepositoryGetByIDArgs) (tx *gorm.DB)
+	Paginate(args RepositoryPaginateArgs, conds ...interface{}) (tx *gorm.DB)
 	Create(dest interface{}) (tx *gorm.DB)
 	Update(dest interface{}) (tx *gorm.DB)
 	Delete(dest interface{}) (tx *gorm.DB)
