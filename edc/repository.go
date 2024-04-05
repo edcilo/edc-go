@@ -54,7 +54,7 @@ func (r *BaseRepository) PaginateMetadata(args RepositoryPaginateMetadataArgs) e
 	beforePage := args.Page - 1
 	nextPage := args.Page + 1
 
-	(*args.Metadata)["page"] = args.Page
+	(*args.Metadata)["current"] = args.Page
 	(*args.Metadata)["last"] = lastPage
 	(*args.Metadata)["total"] = total
 
