@@ -1,6 +1,9 @@
 package edc
 
-import "gorm.io/gorm"
+import (
+	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
+)
 
 type CacheEngine string
 
@@ -114,5 +117,11 @@ type RepositoryPaginateArgs struct {
 }
 
 type RepositoryCountArgs struct {
-	Total int64
+	Total *int64
+}
+
+type RepositoryPaginateMetadataArgs struct {
+	Page     int
+	Limit    int
+	Metadata *fiber.Map
 }

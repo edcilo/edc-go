@@ -17,7 +17,7 @@ func (r *BaseRepository) DB() *gorm.DB {
 }
 
 func (r *BaseRepository) Count(args RepositoryCountArgs) *gorm.DB {
-	return r.DB().Count(&args.Total)
+	return r.DB().Count(args.Total)
 }
 
 func (r *BaseRepository) GetAll(args RepositoryGetAllArgs, conds ...interface{}) (tx *gorm.DB) {
@@ -41,6 +41,36 @@ func (r *BaseRepository) Paginate(
 		Offset((args.Page-1)*args.Limit).
 		Order(args.Order).
 		Find(args.Dest, conds...)
+}
+
+func (r *BaseRepository) PaginateMetadata(args RepositoryPaginateMetadataArgs) error {
+	var total int64
+	countArgs := RepositoryCountArgs{Total: &total}
+	if res := r.Count(countArgs); res.Error != nil {
+		return res.Error
+	}
+
+	lastPage := int(total)/args.Limit + 1
+	beforePage := args.Page - 1
+	nextPage := args.Page + 1
+
+	(*args.Metadata)["page"] = args.Page
+	(*args.Metadata)["last"] = lastPage
+	(*args.Metadata)["total"] = total
+
+	if beforePage > 0 {
+		(*args.Metadata)["before"] = beforePage
+	} else {
+		(*args.Metadata)["before"] = nil
+	}
+
+	if nextPage <= lastPage {
+		(*args.Metadata)["next"] = nextPage
+	} else {
+		(*args.Metadata)["next"] = nil
+	}
+
+	return nil
 }
 
 func (r *BaseRepository) Create(dest interface{}) (tx *gorm.DB) {
