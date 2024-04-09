@@ -99,21 +99,24 @@ type BaseRepositoryInterface interface {
 }
 
 type RepositoryGetAllArgs struct {
-	Dest  interface{}
-	Order string
+	Dest    interface{}
+	Order   string
+	Preload []string
 }
 
 type RepositoryGetByIDArgs struct {
 	Dest    interface{}
 	ID      string
 	Deleted bool
+	Preload []string
 }
 
 type RepositoryPaginateArgs struct {
-	Dest  interface{}
-	Page  int
-	Limit int
-	Order string
+	Dest    interface{}
+	Page    int
+	Limit   int
+	Order   string
+	Preload []string
 }
 
 type RepositoryCountArgs struct {

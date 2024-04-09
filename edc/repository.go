@@ -21,11 +21,18 @@ func (r *BaseRepository) Count(args RepositoryCountArgs) *gorm.DB {
 }
 
 func (r *BaseRepository) GetAll(args RepositoryGetAllArgs, conds ...interface{}) (tx *gorm.DB) {
-	return r.DB().Order(args.Order).Find(args.Dest, conds...)
+	q := r.DB()
+	for _, preload := range args.Preload {
+		q = q.Preload(preload)
+	}
+	return q.Order(args.Order).Find(args.Dest, conds...)
 }
 
 func (r *BaseRepository) GetByID(args RepositoryGetByIDArgs) (tx *gorm.DB) {
 	q := r.DB()
+	for _, preload := range args.Preload {
+		q = q.Preload(preload)
+	}
 	if args.Deleted {
 		q = q.Unscoped()
 	}
@@ -36,7 +43,11 @@ func (r *BaseRepository) Paginate(
 	args RepositoryPaginateArgs,
 	conds ...interface{},
 ) (tx *gorm.DB) {
-	return r.DB().
+	q := r.DB()
+	for _, preload := range args.Preload {
+		q = q.Preload(preload)
+	}
+	return q.
 		Limit(args.Limit).
 		Offset((args.Page-1)*args.Limit).
 		Order(args.Order).
