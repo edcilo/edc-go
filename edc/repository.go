@@ -39,7 +39,10 @@ func (r *BaseRepository) GetByID(args RepositoryGetByIDArgs) (tx *gorm.DB) {
 	return q.Where("id = ?", args.ID).First(args.Dest)
 }
 
-func (r *BaseRepository) GetByIDs(args RepositoryGetByIDsArgs) (tx *gorm.DB) {
+func (r *BaseRepository) GetByIDs(
+	args RepositoryGetByIDsArgs,
+	conds ...interface{},
+) (tx *gorm.DB) {
 	q := r.DB()
 	for _, preload := range args.Preload {
 		q = q.Preload(preload)

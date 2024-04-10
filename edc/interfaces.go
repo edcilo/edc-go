@@ -112,7 +112,7 @@ type RepositoryGetByIDArgs struct {
 }
 
 type RepositoryGetByIDsArgs struct {
-	Dest    []interface{}
+	Dest    interface{}
 	IDs     []string
 	Deleted bool
 	Preload []string
