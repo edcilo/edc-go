@@ -40,3 +40,20 @@ func ValidatorMiddleware(schema interface{}, c *fiber.Ctx) error {
 
 	return c.Next()
 }
+
+func GetEntityFromIDParam(
+	model interface{},
+	schema interface{},
+	localName string,
+	c *fiber.Ctx,
+) error {
+	id := c.Params("id")
+	if res := Edc.DB.
+		Model(model).
+		Where("id = ?", id).
+		First(&schema); res.Error != nil {
+		return ErrorResponse(res.Error, c)
+	}
+	c.Locals(localName, schema)
+	return c.Next()
+}
