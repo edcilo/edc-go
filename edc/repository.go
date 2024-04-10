@@ -50,7 +50,9 @@ func (r *BaseRepository) GetByIDs(
 	if args.Deleted {
 		q = q.Unscoped()
 	}
-	return q.Where("id IN (?)", args.IDs).Find(args.Dest)
+	return q.
+		Where("id IN (?)", args.IDs).
+		Find(args.Dest, conds...)
 }
 
 func (r *BaseRepository) Paginate(
@@ -116,4 +118,8 @@ func (r *BaseRepository) Restore(dest interface{}) (tx *gorm.DB) {
 
 func (r *BaseRepository) HardDelete(dest interface{}) (tx *gorm.DB) {
 	return r.DB().Unscoped().Delete(dest)
+}
+
+func (r *BaseRepository) ClearRelations(dest interface{}, relation string) error {
+	return r.DB().Model(dest).Association(relation).Clear()
 }
