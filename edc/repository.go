@@ -39,6 +39,17 @@ func (r *BaseRepository) GetByID(args RepositoryGetByIDArgs) (tx *gorm.DB) {
 	return q.Where("id = ?", args.ID).First(args.Dest)
 }
 
+func (r *BaseRepository) GetByIDs(args RepositoryGetByIDsArgs) (tx *gorm.DB) {
+	q := r.DB()
+	for _, preload := range args.Preload {
+		q = q.Preload(preload)
+	}
+	if args.Deleted {
+		q = q.Unscoped()
+	}
+	return q.Where("id IN (?)", args.IDs).Find(args.Dest)
+}
+
 func (r *BaseRepository) Paginate(
 	args RepositoryPaginateArgs,
 	conds ...interface{},

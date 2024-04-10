@@ -111,6 +111,13 @@ type RepositoryGetByIDArgs struct {
 	Preload []string
 }
 
+type RepositoryGetByIDsArgs struct {
+	Dest    []interface{}
+	IDs     []string
+	Deleted bool
+	Preload []string
+}
+
 type RepositoryPaginateArgs struct {
 	Dest    interface{}
 	Page    int
