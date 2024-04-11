@@ -12,6 +12,10 @@ var Validator *validator.Validate
 func ValidatorMiddleware(schema interface{}, c *fiber.Ctx) error {
 	Validator = validator.New(validator.WithRequiredStructEnabled())
 
+	Validator.RegisterValidation("uniqueDB", func(fl validator.FieldLevel) bool {
+		return UniqueDBRule(fl, c)
+	})
+
 	dataType := reflect.ValueOf(schema).Elem().Type()
 
 	if err := Validator.Struct(schema); err != nil {
