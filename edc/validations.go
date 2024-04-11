@@ -29,7 +29,7 @@ func UniqueDBRule(fl validator.FieldLevel, c *fiber.Ctx) bool {
 			exceptColumn = params[3]
 		}
 
-		query = fmt.Sprintf("%s AND %s != %s", query, exceptColumn, exceptValue)
+		query = fmt.Sprintf("%s AND %s != '%s'", query, exceptColumn, exceptValue)
 	}
 
 	Edc.DB.Raw(query, fl.Field()).Scan(&count)
