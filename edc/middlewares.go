@@ -15,6 +15,9 @@ func ValidatorMiddleware(schema interface{}, c *fiber.Ctx) error {
 	Validator.RegisterValidation("uniqueDB", func(fl validator.FieldLevel) bool {
 		return UniqueDBRule(fl, c)
 	})
+	Validator.RegisterValidation("existsDB", func(fl validator.FieldLevel) bool {
+		return ExistsDBRule(fl, c)
+	})
 
 	dataType := reflect.ValueOf(schema).Elem().Type()
 
