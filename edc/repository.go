@@ -86,9 +86,9 @@ func (r *BaseRepository) PaginateMetadata(args RepositoryPaginateMetadataArgs) e
 	(*args.Metadata)["total"] = total
 
 	if beforePage > 0 {
-		(*args.Metadata)["before"] = beforePage
+		(*args.Metadata)["previous"] = beforePage
 	} else {
-		(*args.Metadata)["before"] = nil
+		(*args.Metadata)["previous"] = nil
 	}
 
 	if nextPage <= lastPage {
