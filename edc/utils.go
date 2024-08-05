@@ -2,39 +2,45 @@ package edc
 
 import (
 	"crypto/rand"
+	"strings"
 
 	"github.com/gofiber/fiber/v2"
 )
 
+// RandomString generates a random string of a given length
 func RandomString(length int) (string, error) {
-	charset := "abcdefghijklmnopqrstuvwxyz" +
+	const charset = "abcdefghijklmnopqrstuvwxyz" +
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
 		"0123456789" +
 		"!@#$%&*"
 
 	b := make([]byte, length)
-
 	if _, err := rand.Read(b); err != nil {
 		return "", err
 	}
 
-	var result []byte
+	var result strings.Builder
 	for _, v := range b {
-		result = append(result, charset[v%byte(len(charset))])
+		result.WriteByte(charset[v%byte(len(charset))])
 	}
 
-	return string(result), nil
+	return result.String(), nil
 }
 
-func PaginateMetadata(current int, limit int, total int) fiber.Map {
-	lastPage := total/limit + 1
-	beforePage := current - 1
-	nextPage := current + 1
+// PaginateMetadata generates pagination metadata
+func PaginateMetadata(currentPage, pageSize, totalItems int) fiber.Map {
+	if pageSize <= 0 {
+		pageSize = 1
+	}
+
+	lastPage := (totalItems + pageSize - 1) / pageSize
+	beforePage := currentPage - 1
+	nextPage := currentPage + 1
 
 	metadata := fiber.Map{
-		"current": current,
+		"current": currentPage,
 		"last":    lastPage,
-		"total":   total,
+		"total":   totalItems,
 	}
 
 	if beforePage > 0 {
