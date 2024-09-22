@@ -38,9 +38,10 @@ func PaginateMetadata(currentPage, pageSize, totalItems int) fiber.Map {
 	nextPage := currentPage + 1
 
 	metadata := fiber.Map{
-		"current": currentPage,
-		"last":    lastPage,
-		"total":   totalItems,
+		"current":  currentPage,
+		"last":     lastPage,
+		"total":    totalItems,
+		"per_page": pageSize,
 	}
 
 	if beforePage > 0 {
